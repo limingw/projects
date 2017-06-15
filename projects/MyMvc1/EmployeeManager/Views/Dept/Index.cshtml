@@ -1,0 +1,117 @@
+﻿@{
+    Page.Title = "部门信息管理";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+<!-- DAL==>DAO添加sql语句，实体层(Entity)添加表单字段==>添加表格的model层==>DAO(增删改查)==>控制器==>添加视图 -->
+<!-- 添加新的学校管理系统项目，数据库表是班级表和学生表，学生表要关联班级，完成基础框架，完成班级表的信息查询和添加功能 -->
+
+@section Style
+{
+    <style type="text/css">
+        #delForm {
+            display: none;
+        }
+    </style>
+}
+
+@section js
+{
+    <script type="text/javascript">
+        $(function () {
+            //定义删除对话框的确认按钮动作
+            $("#btnDel").click(function () {
+                $("#delForm").submit();
+            });
+        });
+
+        function ToDelete(deptId,deptName) {
+            $("#delId").val(deptId);
+            $("#spDel").html(deptName);
+            $("#delDialog").modal({"show":true});
+            //手动触发表单提交
+            //$("#delForm").submit();
+        }
+    </script>
+}
+
+<!-- 删除提示对话框 -->
+<div id="delDialog" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <div class="modal-title text-info">删除部门</div>
+            </div>
+            <div class="modal-body text-danger">
+                是否删除<span id="spDel"></span>？
+            </div>
+            <div class="modal-footer">
+                <button id="btnDel" class="btn btn-primary">
+                    确定
+                </button>
+                <button class="btn btn-primary" data-dismiss="modal">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除部门的表单 -->
+<form action="~/Dept/Delete" method="post" id="delForm" class="">
+    <input type="text" name="Dept.DeptId" id="delId" />
+</form>
+
+<!-- 部门添加表单 -->
+<div class="row">
+    <div class="col-sm-4 hidden-xs">
+    </div>
+    <div class="col-sm-4 col-xs-12">
+        <form action="~/Dept/Add" method="post" class="form">
+            <div class="form-group">
+                <input name="Dept.DeptName" class="form-control" placeholder="请输入部门名称..." />
+            </div>
+            <div class="form-group">
+                <input name="Dept.DeptInfo" class="form-control" placeholder="请输入部门描述..." />
+            </div>
+            <div class="text-center">
+                <input type="submit" value="保存部门信息" class="btn btn-primary" />
+                <input type="reset" value="重置" class="btn btn-success" />
+                <a class="btn btn-info" href="~/Dept/">刷新部门信息</a>
+            </div>
+            <div class="text-center text-danger">
+                @Model.Message
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-4 hidden-xs">
+    </div>
+</div>
+
+<!-- 部门信息列表 -->
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>部门编号</th>
+            <th>部门名称</th>
+            <th>部门描述</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dept in Model.DeptList)
+        {
+            <tr>
+                <td>@dept.DeptId</td>
+                <td>@dept.DeptName</td>
+                <td>@dept.DeptInfo</td>
+                <td><a href="javascript:void(0);" onclick="ToDelete(@dept.DeptId,'@dept.DeptName')">删除</a>
+                    <a href="~/Dept/ToModify?Dept.DeptId=@dept.DeptId">修改</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

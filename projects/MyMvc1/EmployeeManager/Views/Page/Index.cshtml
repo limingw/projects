@@ -1,0 +1,101 @@
+﻿@{
+    Page.Title = "分页查询";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+@section js
+{
+    <script type="text/javascript">
+        function ToPage(pn)
+        {
+            $("#pn").val(pn);
+            $("#formpn").submit();
+        }
+    </script>    
+}
+
+<form id="formpn" method="get" action="~/Page/Index">
+    <input type="hidden" id="pn" name="PageInfo.PageNumber" />
+</form>
+
+<nav class="text-center">
+    <ul class="pagination">
+        <li>
+            <a href="javascript:void(0)" onclick="ToPage(@Model.PageInfo.PageNumber-1)">&lt;&lt;</a>
+        </li>
+        @for (int i = 1; i <= @Model.PageInfo.PageCount; i++)
+        {
+            <li>
+                <a href="javascript:void(0);" onclick="ToPage(@i)">@i</a>
+            </li>
+        }
+        <li>
+            <a href="javascript:void(0)" onclick="ToPage(@Model.PageInfo.PageNumber+1)">&gt;&gt;</a>
+        </li>
+    </ul>
+</nav>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>工资</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model.PageData)
+        {
+            <tr>
+                <td>@emp["eid"]</td>
+                <td>@emp["ename"]</td>
+                <td>@emp["salary"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pager">
+        <li>
+            <a href="javascript:void(0);" onclick="ToPage(1)">第一页</a>
+        </li>
+        <li>
+            <a href="javascript:void(0);" onclick="ToPage(@Model.PageInfo.PageNumber-1)">上一页</a>
+        </li>
+        <li>
+            <span>
+                记录数/总页数：
+                <span>@Model.PageInfo.Count</span>
+                /
+                <span>@Model.PageInfo.PageCount</span>
+                当前页：
+                <span>@Model.PageInfo.PageNumber</span>
+                跳到：
+                <select onchange="ToPage(this.value)">
+                    @for (int i = 1; i <= @Model.PageInfo.PageCount; i++)
+                    {
+                        if (i==@Model.PageInfo.PageNumber)
+                        {
+                            <option value="@i" selected>
+                                @i
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@i">
+                                @i
+                            </option>
+                        }
+                    }
+                </select>
+            </span>
+        </li>
+        <li>
+            <a href="javascript:void(0);" onclick="ToPage(@Model.PageInfo.PageNumber+1)">下一页</a>
+        </li>
+        <li>
+            <a href="javascript:void(0);" onclick="ToPage(@Model.PageInfo.PageCount)">最后一页</a>
+        </li>
+    </ul>
+</nav>

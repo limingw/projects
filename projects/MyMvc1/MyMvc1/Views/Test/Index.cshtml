@@ -1,0 +1,33 @@
+﻿@{
+    Page.Title = "数据库测试";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+<h1>
+    @Model.Dept.DeptId
+    <span>-</span>
+    @Model.Dept.DeptName
+    <span>-</span>
+    @Model.Dept.DeptInfo
+    <br />
+    @Model.DataBase
+    <br />
+    @foreach (var item in Model.Properties.Keys)
+    {
+        @item<span>:</span>@Model.Properties[item]<br />
+    }
+    <br />
+    @foreach (var dept in Model.DeptList)
+    {
+        @dept.DeptId
+        <span>-</span>
+        @dept.DeptName
+        <span>-</span>
+        @dept.DeptInfo
+        <br />
+    }
+    <br />
+    数据行：@Model.Count
+    <br />
+    影响行数：@ViewBag.Rows
+</h1>

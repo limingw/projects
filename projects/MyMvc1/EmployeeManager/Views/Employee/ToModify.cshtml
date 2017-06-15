@@ -1,0 +1,68 @@
+﻿@{
+    Page.Title = "修改员工信息";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+@section js
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#deptid").val("@Model.Employee.DeptId");
+            if ("@Model.Employee.Sex"==="m") {
+                $("#sexm").prop("checked",true);
+            }
+            else {
+                $("#sexf").prop("checked", true);
+            }
+        });
+    </script>
+}
+
+<form action="~/Employee/Modify" method="post">
+    <input type="hidden" name="Employee.Eid" value="@Model.Employee.Eid" />
+    <div class="row">
+        <div class="col-sm-4 col-xs-hidden"></div>
+        <div class="col-sm-4 col-xs-12">
+            <h1 class="text-center">员工信息修改</h1>
+            <div class="form-group">
+                <input type="text" name="Employee.Ename" value="@Model.Employee.Ename" class="form-control" placeholder="员工姓名..." />
+            </div>
+            <div class="form-group">
+                <label>性别：</label>
+                <label class="radio-inline">
+                    <input type="radio" id="sexm" name="Employee.Sex" value="m" />男
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" id="sexf" name="Employee.Sex" value="f" />女
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="text" name="Employee.Salary" value="@Model.Employee.Salary" class="form-control" placeholder="员工工资..." />
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon">
+                        部门：
+                    </label>
+                    <select id="deptid" name="Employee.DeptId" class="form-control">
+                        @foreach (var dept in Model.DeptList)
+                        {
+                            <option value="@dept.DeptId">
+                                @dept.DeptName
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="修改员工" class="btn btn-info" />
+                <input type="reset" value="重填" class="btn btn-info" />
+                <a href="~/Employee/" class="btn btn-info">返回</a>
+            </div>
+            <div class="text-center text-danger">
+                @Model.Message
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-hidden"></div>
+    </div>
+</form>

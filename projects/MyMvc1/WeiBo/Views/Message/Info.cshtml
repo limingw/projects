@@ -1,0 +1,62 @@
+﻿@{
+    Page.Title = "回复";
+    Layout = "~/_LayoutMain.cshtml";
+    WeiBo.DAL.Entity.TblUser user = (WeiBo.DAL.Entity.TblUser)Session["LoginUser"];
+}
+
+<div class="row">
+    <div class="col-sm-hidden col-xs-4"></div>
+    <div class="col-sm-12 col-xs-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="text-center">
+                    @Model.Info.Title
+                </div>
+            </div>
+            <div class="panel-body">
+                @Model.Info.Nickname
+                <span>在</span>
+                @Model.Info.Created
+                <span>说：</span>
+                <hr />
+                @Model.Info.Content
+                <div class="bg-info">
+                    @if (Model.RList.Count==0)
+                    {
+                        <span>暂无回复记录...</span>
+                    }
+                    else
+                    {
+                        foreach (var r in Model.RList)
+                        {
+                            <hr />
+                            @r.Nickname
+                            <span>在</span>
+                            @r.Created
+                            <span>回复：</span>
+                            <br />
+                            @r.Content
+                        }
+                    }
+
+                    @if (user!=null)
+                    {
+                        <form action="~/Message/AddReturn" method="post">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon">回复：</label>
+                                    <input type="text" name="RInfo.Content" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <input type="submit" value="确定" class="btn btn-primary" />
+                            </div>
+                            <input type="hidden" name="RInfo.Mid" value="@Model.Info.Mid" />
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-hidden col-xs-4"></div>
+</div>

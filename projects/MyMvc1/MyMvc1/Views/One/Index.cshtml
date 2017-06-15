@@ -1,0 +1,13 @@
+﻿@{
+   //指定页面布局文件
+    Layout = "~/_LayoutMain.cshtml"; 
+    //设置页面变量
+    Page.Title = "MVC页面";   
+}
+@section Style{
+    <!-- 声明区块，这里面的内容会出现在模板页中，对应名称的RenderSection的位置 -->
+    <link rel="stylesheet" href="~/Content/app/base.css"/>    
+}
+<p class="text-center"><a href="Index.html">返回首页</a></p>
+<h2>我的第一个MVC页面!@ViewBag.Info  @ViewBag.RealPath</h2>
+<h2 class="color-red">样式表对照组<span id="spanJs">原始内容</span></h2>

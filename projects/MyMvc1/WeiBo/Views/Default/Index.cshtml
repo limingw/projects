@@ -1,0 +1,75 @@
+﻿@{
+    Page.Title = "首页";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+@section Style
+{
+    <style type="text/css">
+        iframe {
+            width: 100%;
+            border: 0px;
+        }
+    </style>
+}
+
+@section js
+{
+    <script type="text/javascript">
+        function ToPage(pn) {
+            $("#pn").val(pn);
+            $("#pageInfo").submit();
+        }
+    </script>
+}
+
+<iframe src="~/User/Index"></iframe>
+
+<div class="jumbotron">
+    <h1>
+        <i class="fa fa-user-o">微博</i>
+    </h1>
+</div>
+
+<div class="text-center">
+    @foreach (var m in Model.MessageList)
+    {
+        <div>
+            <hr />
+            <span>@m.Nickname</span>
+            在
+            <span>@String.Format("{0:yyyy-MM-dd HH:mm:ss}", @m.Created)</span>
+            发表了：
+            <a href="~/Message/Info?Info.Mid=@m.Mid">@m.Title</a>
+        </div>
+    }
+
+    <form id="pageInfo" method="get" action="~/Default/">
+        <input type="hidden" name="PageInfo.PageNumber" id="pn" />
+    </form>
+
+    @if (Model.PageInfo.PageCount > 1)
+    {
+        <nav class="text-center">
+            <ul class="pagination">
+                <li>
+                    <a href="javascript:void(0)" onclick="ToPage(@Model.PageInfo.PageNumber-1)">&lt;&lt;</a>
+                </li>
+                @for (int i = 1; i <= @Model.PageInfo.PageCount; i++)
+                {
+                    <li>
+                        <a href="javascript:void(0);" onclick="ToPage(@i)">@i</a>
+                    </li>
+                }
+                <li>
+                    <a href="javascript:void(0)" onclick="ToPage(@Model.PageInfo.PageNumber+1)">&gt;&gt;</a>
+                </li>
+            </ul>
+        </nav>
+    }
+    @if (Model.PageInfo.Count==0)
+    {
+        <h1>查无记录</h1>
+    }
+
+</div>

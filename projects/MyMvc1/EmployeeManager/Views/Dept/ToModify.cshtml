@@ -1,0 +1,65 @@
+﻿@{
+    Page.Title = "修改";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+@section Style
+{
+    <style type="text/css">
+        
+    </style>
+}
+
+@section js
+{
+    <script type="text/javascript">
+        $("#btnreset").click(function () {
+            $("#name").val("");
+            $("#info").val("");
+        });
+    </script>
+}
+
+<form action="~/Dept/Modify" method="post" class="form">
+    <input type="hidden" name="Dept.DeptId" value="@Model.Dept.DeptId"/>
+</form>
+
+<div class="row">
+    <div class="col-xs-hidden col-sm-4"></div>
+    <div class="col-sm-4 col-xs-12">
+        <div class="col-xs-12 text-center text-danger">
+            <h3><strong>修改部门信息</strong></h3>
+        </div>
+        <div class="col-xs-12">
+            <form action="~/Dept/Modify" method="post" class="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <label class="input-group-addon text-info">
+                            部门名称：
+                        </label>
+                        <input id="name" name="Dept.DeptName" class="form-control" placeholder="请输入部门名称..." value="@Model.Dept.DeptName"/>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label class="input-group-addon text-info">
+                            部门描述：
+                        </label>
+                        <input id="info" name="Dept.DeptInfo" class="form-control" placeholder="请输入部门描述..." value="@Model.Dept.DeptInfo"/>
+                    </div>
+
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="保存部门信息" class="btn btn-primary" />
+                    <input id="btnreset" type="reset" value="重置" class="btn btn-success" />
+                    <a class="btn btn-info" href="~/Dept/">返回</a>
+                </div>
+                <div class="text-center text-danger">
+                    @Model.Message
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-4 col-xs-hidden"></div>
+</div>
