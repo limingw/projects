@@ -1,0 +1,69 @@
+﻿@{
+    Page.Title = "多文件上传";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+@section js
+{
+    <script type="text/javascript">
+        //获取服务器端的ActionCode,使用code好处是code是数，不会包含特殊字符，不会造成注入js发生错误
+        var code = "@Model.ActionCode";
+        $(function () {
+            if (code==="200") {
+                alert("上传文件成功");
+            }
+            else if (code==="500") {
+                alert("上传失败，请稍后再试");
+            }
+        });
+    </script>    
+}
+
+<div class="row">
+    <div class="col-sm-hidden col-md-4"></div>
+    <div class="col-sm-12 col-md-4">
+        <h1 class="text-center">我要上传</h1>
+        <form action="~/Default/UploadFiles" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon">
+                        文件1
+                    </label>
+                    <input type="file" name="uploadfile" class="form-control" />
+                    <!-- name与model层无关,与控制器中的视图声明的变量相同 -->
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon">
+                        文件2
+                    </label>
+                    <input type="file" name="uploadfile" class="form-control" />
+                    <!-- name与model层无关,与控制器中的视图声明的变量相同 -->
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon">
+                        文件3
+                    </label>
+                    <input type="file" name="uploadfile" class="form-control" />
+                    <!-- name与model层无关,与控制器中的视图声明的变量相同 -->
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon">
+                        描述
+                    </label>
+                    <input type="text" name="UpFile.Description" class="form-control" />
+                </div>
+            </div>
+            <div class="text-right">
+                <input type="submit" value="上传" class="btn btn-primary" />
+                <a href="~/Default/Index" class="btn btn-primary">返回</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-hidden col-md-4"></div>
+</div>

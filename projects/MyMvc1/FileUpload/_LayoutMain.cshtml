@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@Page.Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="~/Content/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/lib/css/font-awesome.min.css" />
+    <!-- 定义区块渲染，第一个参数是区块名称，子页面对应名称的区块内容会显示到该位置，第二个参数是表示这个区块是否必须在子页面中定义 -->
+    @RenderSection("Style", false)
+    <script src="~/Scripts/lib/jquery.min.js"></script>
+    <script src="~/Scripts/lib/bootstrap.min.js"></script>
+    @RenderSection("js", false)
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

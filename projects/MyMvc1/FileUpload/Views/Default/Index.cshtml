@@ -1,0 +1,123 @@
+﻿@{
+    Page.Title = "文件上传";
+    Layout = "~/_LayoutMain.cshtml";
+}
+
+@section js
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#divHead").hide();
+            $("#divHead").fadeIn(5000);
+        });
+        function ToPage(pn) {
+            $("#pn").val(pn);
+            $("#pageInfo").submit();
+        }
+        function DownLoad(fid)
+        {
+            $("#fid").val(fid);
+            $("#downform").submit();
+        }
+    </script>
+}
+
+<!-- 下载文件的表单 -->
+<form action="~/Default/DownLoad" id="downform" method="post" target="_blank" class="">
+    <input type="hidden" name="UpFile.Fid" id="fid" />
+</form>
+
+<!-- 上传文件的表单 -->
+<form id="pageInfo" method="get" action="~/Default/">
+    <input type="hidden" name="PageInfo.PageNumber" id="pn" />
+</form>
+
+<div class="text-center" id="divHead">
+    <h1 class="jumbotron">
+        <i class="fa fa-file"></i>
+        文件上传下载演示
+        <small>开发：李明旺</small>
+    </h1>
+</div>
+
+<!-- 文件上传表单 -->
+<!-- 包含文件上传的表单必须包含1enctype="multipart/form-data"属性值，且method必须是post -->
+<div class="row">
+    <div class="col-sm-hidden col-md-4"></div>
+    <div class="col-sm-12 col-md-4">
+        <h1 class="text-center">我要上传</h1>
+        <form action="~/Default/Upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon">
+                        文件
+                    </label>
+                    <input type="file" name="uploadfile" class="form-control" />
+                    <!-- name与model层无关,与控制器中的视图声明的变量相同 -->
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon">
+                        描述
+                    </label>
+                    <input type="text" name="UpFile.Description" class="form-control" />
+                </div>
+            </div>
+            <div class="text-right">
+                <input type="submit" value="上传" class="btn btn-primary" />
+                <a href="~/Default/ToAddFiles" class="btn btn-primary">上传多文件</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-hidden col-md-4"></div>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>文件名</th>
+            <th>描述</th>
+            <th>类型</th>
+            <th>大小</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var f in Model.Files)
+        {
+            <tr>
+                <td>@f.Filename</td>
+                <td>@f.Description</td>
+                <td>@f.ContentType</td>
+                <td>@f.Size</td>
+                <td>@f.UploadDate</td>
+                <td>
+                    <a href="javascript:void(0)" onclick="DownLoad(@f.Fid)">下载</a>
+                    @if (f.ContentType.Length>5&&f.ContentType.Substring(0,5).Equals("image"))
+                    {
+                        <a href="~/Default/ShowImage?UpFile.Fid=@f.Fid">查看图片</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav class="text-center">
+    <ul class="pagination">
+        <li>
+            <a href="javascript:void(0)" onclick="ToPage(@Model.PageInfo.PageNumber-1)">&lt;&lt;</a>
+        </li>
+        @for (int i = 1; i <= @Model.PageInfo.PageCount; i++)
+        {
+            <li>
+                <a href="javascript:void(0);" onclick="ToPage(@i)">@i</a>
+            </li>
+        }
+        <li>
+            <a href="javascript:void(0)" onclick="ToPage(@Model.PageInfo.PageNumber+1)">&gt;&gt;</a>
+        </li>
+    </ul>
+</nav>
